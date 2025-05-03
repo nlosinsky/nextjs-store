@@ -1,16 +1,12 @@
-import {Button} from "@/components/ui/button";
-import Link from 'next/link';
+import FeaturedProducts from '@/components/home/FeaturedProducts';
+import Hero from '@/components/home/Hero';
+
 function HomePage() {
   return (
     <div>
-      <h1 className='text-3xl'>HomePage</h1>
-      <Button variant="outline" size="lg" className="capitalize m-8">click me</Button>
-
-      <Button asChild variant="outline" size="lg" className="capitalize m-8">
-        <Link href="/login">Login</Link>
-      </Button>
+      <Hero />
+      <FeaturedProducts/>
     </div>
-
   );
 }
 export default HomePage;
