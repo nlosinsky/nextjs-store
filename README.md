@@ -1,3 +1,5 @@
+## [IN PROGRESS ...]
+
 Sample Next.js store application
 
 You can check deployed version [here](https://nextjs-store-two-zeta.vercel.app/)
