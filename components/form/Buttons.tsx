@@ -2,8 +2,8 @@
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
 import { useFormStatus } from 'react-dom';
+import { LuLoader, LuSquarePen, LuTrash2 } from 'react-icons/lu';
 
 type btnSize = 'default' | 'lg' | 'sm';
 
@@ -25,7 +25,7 @@ export function SubmitButton({className = '', text = 'submit', size = 'lg'}: Sub
     >
       {pending ? (
         <>
-          <Loader2 className='mr-2 h-4 w-4 animate-spin'/>
+          <LuLoader className='mr-2 h-4 w-4 animate-spin'/>
           Please wait...
         </>
       ) : (
@@ -33,4 +33,35 @@ export function SubmitButton({className = '', text = 'submit', size = 'lg'}: Sub
       )}
     </Button>
   );
+}
+
+type actionType = 'edit' | 'delete';
+
+export const IconButton = ({actionType}: { actionType: actionType }) => {
+  const {pending} = useFormStatus();
+
+  const renderIcon = () => {
+    switch (actionType) {
+      case 'edit':
+        return <LuSquarePen/>;
+      case 'delete':
+        return <LuTrash2/>;
+      default:
+        const never: never = actionType;
+        throw new Error(`Invalid action type: ${never}`);
+    }
+  };
+
+  return (
+    <Button
+      type='submit'
+      size='icon'
+      variant="link"
+      className='p-2 cursor-pointer'
+    >
+      {pending ? <LuLoader className=' animate-spin'/> : renderIcon()}
+    </Button>
+  );
+
+
 }
