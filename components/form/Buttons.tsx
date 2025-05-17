@@ -76,14 +76,14 @@ export const CardSignInButton = () => {
         className='p-2 cursor-pointer'
         asChild
       >
-        <FaRegHeart />
+        <FaRegHeart/>
       </Button>
     </SignInButton>
   );
 };
 
-export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
-  const { pending } = useFormStatus();
+export const CardSubmitButton = ({isFavorite}: { isFavorite: boolean }) => {
+  const {pending} = useFormStatus();
   return (
     <Button
       type='submit'
@@ -92,12 +92,22 @@ export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
       className=' p-2 cursor-pointer'
     >
       {pending ? (
-        <LuLoader className=' animate-spin' />
+        <LuLoader className=' animate-spin'/>
       ) : isFavorite ? (
-        <FaHeart />
+        <FaHeart/>
       ) : (
-        <FaRegHeart />
+        <FaRegHeart/>
       )}
     </Button>
+  );
+};
+
+export const ProductSignInButton = () => {
+  return (
+    <SignInButton mode='modal'>
+      <Button type='button' size='default' className='mt-8'>
+        Please Sign In
+      </Button>
+    </SignInButton>
   );
 };

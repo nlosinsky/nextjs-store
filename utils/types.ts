@@ -1,8 +1,11 @@
+import { Prisma } from '@prisma/client';
+
 export type actionFunction = (
   prevState: any,
   formData: FormData
 ) => Promise<{ message: string }>;
 
+// todo maybe remove and use model from prisma?
 export type CartItem = {
   productId: string;
   image: string;
@@ -20,3 +23,7 @@ export type CartState = {
   tax: number;
   orderTotal: number;
 };
+
+export type CartItemWithProduct = Prisma.CartItemGetPayload<{
+  include: { product: true };
+}>;
