@@ -13,8 +13,8 @@ import Link from 'next/link';
 import { LuAlignLeft } from 'react-icons/lu';
 import { links } from '@/utils/links';
 
-function LinksDropdown() {
-  const { userId } = auth();
+async function LinksDropdown() {
+  const { userId } = await auth();
   const isAdmin = userId === process.env.ADMIN_USER_ID;
 
   return (
