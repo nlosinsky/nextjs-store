@@ -18,7 +18,7 @@ export const GET = async (req: NextRequest) => {
     const orderId = session.metadata?.orderId;
     const cartId = session.metadata?.cartId;
 
-    if (session.status === 'complete') {
+    if (session.status === 'complete' && orderId && cartId) {
       await db.order.update({
         where: {
           id: orderId,

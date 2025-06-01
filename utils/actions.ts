@@ -67,7 +67,7 @@ export const fetchSingleProduct = async (productId: string) => {
   return product;
 };
 
-export const createProductAction = async (prevState: any, formData: FormData) => {
+export const createProductAction = async (_prevState: any, formData: FormData) => {
   const user = await getAuthUser();
 
   try {
@@ -133,7 +133,7 @@ export const fetchAdminProductDetails = async (productId: string) => {
 };
 
 export const updateProductAction = async (
-  prevState: any,
+  _prevState: any,
   formData: FormData
 ) => {
   await getAdminUser();
@@ -160,7 +160,7 @@ export const updateProductAction = async (
   }
 };
 export const updateProductImageAction = async (
-  prevState: any,
+  _prevState: any,
   formData: FormData
 ) => {
   await getAuthUser();
@@ -256,7 +256,7 @@ export const fetchUserFavorites = async () => {
 };
 
 export const createReviewAction = async (
-  prevState: any,
+  _prevState: any,
   formData: FormData
 ) => {
   const user = await getAuthUser();
@@ -504,7 +504,7 @@ export const updateCart = async (cart: Cart) => {
   });
 };
 
-export const addToCartAction = async (prevState: any, formData: FormData) => {
+export const addToCartAction = async (_prevState: any, formData: FormData) => {
   const user = await getAuthUser();
 
   try {
@@ -521,7 +521,7 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
 };
 
 export const removeCartItemAction = async (
-  prevState: any,
+  _prevState: any,
   formData: FormData
 ) => {
   const user = await getAuthUser();
@@ -578,7 +578,7 @@ export const updateCartItemAction = async (
   }
 };
 
-export const createOrderAction = async (prevState: any, formData: FormData) => {
+export const createOrderAction = async () => {
   const user = await getAuthUser();
   let orderId: null | string = null;
   let cartId: null | string = null;
@@ -604,7 +604,7 @@ export const createOrderAction = async (prevState: any, formData: FormData) => {
         orderTotal: cart.orderTotal,
         tax: cart.tax,
         shipping: cart.shipping,
-        email: user.emailAddresses[0].emailAddress,
+        email: user.emailAddresses?.length && user.emailAddresses[0]?.emailAddress || '',
       },
     });
 
@@ -629,7 +629,7 @@ export const fetchUserOrders = async () => {
 };
 
 export const fetchAdminOrders = async () => {
-  const user = await getAdminUser();
+  await getAdminUser();
 
   const orders = await db.order.findMany({
     where: {
