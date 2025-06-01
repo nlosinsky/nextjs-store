@@ -12,12 +12,12 @@ async function ProductReviews({productId}: { productId: string }) {
 
       <div className='grid md:grid-cols-2 gap-8 my-8'>
         {reviews.map((review) => {
-          const {comment, rating, authorImageUrl, authorName} = review;
+          const {comment, rating, author} = review;
           const reviewInfo = {
             comment,
             rating,
-            image: authorImageUrl,
-            name: authorName,
+            image: author.imageUrl || '/images/user.png',
+            name: author.firstName,
           };
           return <ReviewCard key={review.id} reviewInfo={reviewInfo}/>;
         })}

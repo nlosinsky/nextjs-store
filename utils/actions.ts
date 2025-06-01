@@ -2,6 +2,7 @@
 
 import { imageSchema, productSchema, reviewSchema, validateWithZodSchema } from '@/utils/schema';
 import { deleteImage, uploadImage } from '@/utils/supabase';
+import { ReviewWithAuthor } from '@/utils/types';
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { Cart } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
@@ -113,7 +114,6 @@ export const deleteProductAction = async (prevState: { productId: string }) => {
 
     await deleteImage(product.image);
 
-    // todo check if can use pathname
     revalidatePath('/admin/products');
     return {message: 'product removed'};
   } catch (error) {
@@ -152,7 +152,7 @@ export const updateProductAction = async (
         ...validatedFields,
       },
     });
-    // todo check if can use pathname
+
     revalidatePath(`/admin/products/${productId}/edit`);
     return {message: 'Product updated successfully'};
   } catch (error) {
@@ -181,7 +181,7 @@ export const updateProductImageAction = async (
         image: fullPath,
       },
     });
-    // todo check if can use pathname
+
     revalidatePath(`/admin/products/${productId}/edit`);
     return {message: 'Product Image updated successfully'};
   } catch (error) {
@@ -263,7 +263,7 @@ export const createReviewAction = async (
         clerkId: user.id,
       },
     });
-    // todo check if can use pathname
+
     revalidatePath(`/products/${validatedFields.productId}`);
     return {message: 'Review submitted successfully'};
   } catch (error) {
@@ -271,7 +271,7 @@ export const createReviewAction = async (
   }
 };
 
-export const fetchProductReviews = async (productId: string) => {
+export const fetchProductReviews = async (productId: string): Promise<ReviewWithAuthor[]> => {
   const reviews = await db.review.findMany({
     where: {
       productId,
@@ -279,6 +279,9 @@ export const fetchProductReviews = async (productId: string) => {
     orderBy: {
       createdAt: 'desc',
     },
+    include: {
+      author: true
+    }
   });
   return reviews;
 };
@@ -418,7 +421,6 @@ export const fetchOrCreateCart = async (
       data: {
         clerkId: userId,
       },
-      // todo check why it's included and if we can omit it
       include: includeProductClause,
     });
   }
