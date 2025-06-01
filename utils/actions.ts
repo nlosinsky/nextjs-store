@@ -4,7 +4,7 @@ import { imageSchema, productSchema, reviewSchema, validateWithZodSchema } from 
 import { deleteImage, uploadImage } from '@/utils/supabase';
 import { ReviewWithAuthor } from '@/utils/types';
 import { auth, currentUser } from '@clerk/nextjs/server';
-import { Cart } from '@prisma/client';
+import { Cart, Prisma } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import db from './db';
@@ -230,6 +230,13 @@ export const toggleFavoriteAction = async (prevState: {
     revalidatePath(pathname);
     return {message: favoriteId ? 'Removed from Faves' : 'Added to Faves'};
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return {message: 'This product is already in your favorites.'};
+      } else if (error.code === 'P2025') {
+        return {message: 'Favorite not found.'};
+      }
+    }
     return renderError(error);
   }
 };
