@@ -10,11 +10,12 @@ import { formatCurrency } from '@/utils/format';
 import { auth } from '@clerk/nextjs/server';
 import Image from 'next/image';
 
-async function SingleProductPage({params}: { params: { id: string } }) {
+async function SingleProductPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const product = await fetchSingleProduct(params.id);
   const {name, image, company, description, price} = product;
   const dollarsAmount = formatCurrency(price);
-  const {userId} = auth();
+  const {userId} = await auth();
   const reviewDoesNotExist = userId && !(await findExistingReview(userId, product.id));
 
   return (

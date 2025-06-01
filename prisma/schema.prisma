@@ -14,6 +14,19 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model User {
+  id        String   @id @default(uuid())
+  clerkId   String   @unique
+  email     String   @unique
+  firstName String
+  lastName  String
+  fullName  String
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Review    Review[]
+}
+
 model Product {
   id          String     @id @default(uuid())
   name        String
@@ -37,20 +50,19 @@ model Favorite {
   productId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  @@unique([clerkId, productId])
 }
 
-// todo check if possible to derive author details from the clerk api or create one more model to sync data from clerk?
 model Review {
-  id             String   @id @default(uuid())
-  clerkId        String
-  rating         Int
-  comment        String
-  authorName     String
-  authorImageUrl String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  product        Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId      String
+  id        String   @id @default(uuid())
+  clerkId   String
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  author    User     @relation(fields: [clerkId], references: [clerkId], onDelete: Cascade)
+  productId String
 }
 
 model Cart {

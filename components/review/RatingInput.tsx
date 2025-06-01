@@ -4,7 +4,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from '
 const RatingInput = ({name, labelText,}: { name: string; labelText?: string; }) => {
   const numbers = Array.from({length: 5}, (_, i) => {
     const value = i + 1;
-    // todo check if we need to string here
     return value.toString();
   }).reverse();
 

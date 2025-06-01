@@ -7,7 +7,8 @@ import PriceInput from '@/components/form/PriceInput';
 import TextAreaInput from '@/components/form/TextAreaInput';
 import { fetchAdminProductDetails, updateProductAction, updateProductImageAction } from '@/utils/actions';
 
-async function EditProductPage({params}: { params: { id: string } }) {
+async function EditProductPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const {id} = params;
   const product = await fetchAdminProductDetails(id);
   const {name, company, description, featured, price, image} = product;

@@ -92,7 +92,7 @@ export const CardSubmitButton = ({isFavorite}: { isFavorite: boolean }) => {
       className=' p-2 cursor-pointer'
     >
       {pending ? (
-        <LuLoader className=' animate-spin'/>
+        <LuLoader className='animate-spin'/>
       ) : isFavorite ? (
         <FaHeart/>
       ) : (
