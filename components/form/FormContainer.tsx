@@ -2,15 +2,14 @@
 
 import { useToast } from '@/hooks/use-toast';
 import { actionFunction } from '@/utils/types';
-import { useEffect } from 'react';
-import { useFormState } from 'react-dom';
+import { useEffect, useActionState } from 'react';
 
 const initialState = {
   message: '',
 };
 
 function FormContainer({action, children,}: { action: actionFunction; children: React.ReactNode; }) {
-  const [state, formAction] = useFormState(action, initialState);
+  const [state, formAction] = useActionState(action, initialState);
   const {toast} = useToast();
 
   useEffect(() => {
