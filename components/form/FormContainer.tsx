@@ -1,20 +1,28 @@
-'use client';
+"use client";
 
-import { useToast } from '@/hooks/use-toast';
-import { actionFunction } from '@/utils/types';
-import { useEffect, useActionState } from 'react';
+import { useActionState, useEffect } from "react";
+
+import { useToast } from "@/hooks/use-toast";
+
+import { actionFunction } from "@/utils/types";
 
 const initialState = {
-  message: '',
+  message: ""
 };
 
-function FormContainer({action, children,}: { action: actionFunction; children: React.ReactNode; }) {
+function FormContainer({
+  action,
+  children
+}: {
+  action: actionFunction;
+  children: React.ReactNode;
+}) {
   const [state, formAction] = useActionState(action, initialState);
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (state.message) {
-      toast({description: state.message});
+      toast({ description: state.message });
     }
   }, [state]);
 

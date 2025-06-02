@@ -1,4 +1,4 @@
-import LoadingContainer from '@/components/global/LoadingContainer';
+import LoadingContainer from "@/components/global/LoadingContainer";
 
 function Loading() {
   return <LoadingContainer />;

@@ -1,0 +1,12 @@
+build/
+public
+node_modules/
+package-lock.json
+yarn.lock
+.yarn/
+.next
+**/.idea
+.DS_Store
+tmp
+components/ui/
+

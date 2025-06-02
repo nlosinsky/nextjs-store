@@ -1,19 +1,20 @@
-import { fetchFavoriteId } from '@/utils/actions';
+import { auth } from "@clerk/nextjs/server";
 
-import { auth } from '@clerk/nextjs/server';
-import { CardSignInButton } from '../form/Buttons';
-import FavoriteToggleForm from './FavoriteToggleForm';
+import { fetchFavoriteId } from "@/utils/actions";
 
-async function FavoriteToggleButton({productId}: { productId: string }) {
-  const {userId} = await auth();
+import { CardSignInButton } from "../form/Buttons";
+import FavoriteToggleForm from "./FavoriteToggleForm";
+
+async function FavoriteToggleButton({ productId }: { productId: string }) {
+  const { userId } = await auth();
 
   if (!userId) {
-    return <CardSignInButton/>;
+    return <CardSignInButton />;
   }
 
-  const favoriteId = await fetchFavoriteId({productId});
+  const favoriteId = await fetchFavoriteId({ productId });
 
-  return <FavoriteToggleForm favoriteId={favoriteId} productId={productId}/>;
+  return <FavoriteToggleForm favoriteId={favoriteId} productId={productId} />;
 }
 
 export default FavoriteToggleButton;

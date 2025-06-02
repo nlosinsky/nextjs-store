@@ -1,16 +1,17 @@
-import db from '@/utils/db';
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
+import { type NextRequest } from "next/server";
 
-import { type NextRequest } from 'next/server';
-import Stripe from 'stripe';
+import Stripe from "stripe";
+
+import db from "@/utils/db";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2025-05-28.basil',
+  apiVersion: "2025-05-28.basil"
 });
 
 export const GET = async (req: NextRequest) => {
-  const {searchParams} = new URL(req.url);
-  const session_id = searchParams.get('session_id') as string;
+  const { searchParams } = new URL(req.url);
+  const session_id = searchParams.get("session_id") as string;
 
   try {
     const session = await stripe.checkout.sessions.retrieve(session_id);
@@ -18,27 +19,27 @@ export const GET = async (req: NextRequest) => {
     const orderId = session.metadata?.orderId;
     const cartId = session.metadata?.cartId;
 
-    if (session.status === 'complete' && orderId && cartId) {
+    if (session.status === "complete" && orderId && cartId) {
       await db.order.update({
         where: {
-          id: orderId,
+          id: orderId
         },
         data: {
-          isPaid: true,
-        },
+          isPaid: true
+        }
       });
       await db.cart.delete({
         where: {
-          id: cartId,
-        },
+          id: cartId
+        }
       });
     }
   } catch (err) {
     console.log(err);
     return Response.json(null, {
       status: 500,
-      statusText: 'Internal Server Error',
+      statusText: "Internal Server Error"
     });
   }
-  redirect('/orders');
+  redirect("/orders");
 };

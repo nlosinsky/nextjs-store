@@ -1,37 +1,42 @@
-'use client';
-import { EmbeddedCheckout, EmbeddedCheckoutProvider, } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import axios from 'axios';
-import { useSearchParams } from 'next/navigation';
-import React, { useCallback } from 'react';
+"use client";
+
+import React, { useCallback } from "react";
+
+import { useSearchParams } from "next/navigation";
+
+import {
+  EmbeddedCheckout,
+  EmbeddedCheckoutProvider
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
 );
 
-
 function CheckoutPage() {
   const searchParams = useSearchParams();
 
-  const orderId = searchParams.get('orderId');
-  const cartId = searchParams.get('cartId');
+  const orderId = searchParams.get("orderId");
+  const cartId = searchParams.get("cartId");
 
   const fetchClientSecret = useCallback(async () => {
     // Create a Checkout Session
-    const response = await axios.post('/api/payment', {
+    const response = await axios.post("/api/payment", {
       orderId: orderId,
-      cartId: cartId,
+      cartId: cartId
     });
 
     return response.data.clientSecret;
   }, []);
 
-  const options = {fetchClientSecret};
+  const options = { fetchClientSecret };
 
   return (
-    <div id='checkout'>
+    <div id="checkout">
       <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-        <EmbeddedCheckout/>
+        <EmbeddedCheckout />
       </EmbeddedCheckoutProvider>
     </div>
   );

@@ -1,7 +1,9 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import Image from 'next/image';
-import Comment from './Comment';
-import Rating from './Rating';
+import Image from "next/image";
+
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+
+import Comment from "./Comment";
+import Rating from "./Rating";
 
 type ReviewCardProps = {
   reviewInfo: {
@@ -13,30 +15,30 @@ type ReviewCardProps = {
   children?: React.ReactNode;
 };
 
-function ReviewCard({reviewInfo, children}: ReviewCardProps) {
+function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
   return (
-    <Card className='relative'>
+    <Card className="relative">
       <CardHeader>
-        <div className='flex items-center'>
+        <div className="flex items-center">
           <Image
             src={reviewInfo.image}
             alt={reviewInfo.name}
             width={48}
             height={48}
-            className='w-12 h-12 rounded-full object-cover'
+            className="h-12 w-12 rounded-full object-cover"
           />
-          <div className='ml-4'>
-            <h3 className='text-sm font-bold capitalize mb-1'>
+          <div className="ml-4">
+            <h3 className="mb-1 text-sm font-bold capitalize">
               {reviewInfo.name}
             </h3>
-            <Rating rating={reviewInfo.rating}/>
+            <Rating rating={reviewInfo.rating} />
           </div>
         </div>
       </CardHeader>
       <CardContent>
-        <Comment comment={reviewInfo.comment}/>
+        <Comment comment={reviewInfo.comment} />
       </CardContent>
-      <div className='absolute top-3 right-3'>{children}</div>
+      <div className="absolute top-3 right-3">{children}</div>
     </Card>
   );
 }
