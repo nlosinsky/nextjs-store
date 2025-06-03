@@ -1,7 +1,15 @@
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table";
 
-import { fetchAdminOrders } from '@/utils/actions';
-import { formatCurrency, formatDate } from '@/utils/format';
+import { fetchAdminOrders } from "@/utils/actions";
+import { formatCurrency, formatDate } from "@/utils/format";
 
 async function SalesPage() {
   const orders = await fetchAdminOrders();
@@ -29,7 +37,7 @@ async function SalesPage() {
               tax,
               shipping,
               createdAt,
-              email,
+              email
             } = order;
 
             return (

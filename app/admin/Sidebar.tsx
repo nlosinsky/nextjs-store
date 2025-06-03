@@ -1,9 +1,11 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { adminLinks } from '@/utils/links';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
+
+import { adminLinks } from "@/utils/links";
 
 function Sidebar() {
   const pathname = usePathname();
@@ -12,12 +14,12 @@ function Sidebar() {
     <aside>
       {adminLinks.map((link) => {
         const isActivePage = pathname === link.href;
-        const variant = isActivePage ? 'default' : 'ghost';
+        const variant = isActivePage ? "default" : "ghost";
         return (
           <Button
             key={link.href}
             asChild
-            className='w-full mb-2 capitalize font-normal justify-start'
+            className="mb-2 w-full justify-start font-normal capitalize"
             variant={variant}
           >
             <Link key={link.href} href={link.href}>

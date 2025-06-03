@@ -1,8 +1,14 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 
 export enum Mode {
-  SingleProduct = 'singleProduct',
-  CartItem = 'cartItem',
+  SingleProduct = "singleProduct",
+  CartItem = "cartItem"
 }
 
 type SelectProductAmountProps = {
@@ -21,23 +27,23 @@ type SelectCartItemAmountProps = {
 function SelectProductAmount(
   props: SelectProductAmountProps | SelectCartItemAmountProps
 ) {
-  const {mode, amount, setAmount} = props;
+  const { mode, amount, setAmount } = props;
 
   const cartItem = mode === Mode.CartItem;
 
   return (
     <>
-      <h4 className='mb-2'>Amount : </h4>
+      <h4 className="mb-2">Amount : </h4>
       <Select
         defaultValue={amount.toString()}
-        onValueChange={(value) => setAmount(Number(value))}
+        onValueChange={(value) => void setAmount(Number(value))}
         disabled={cartItem ? props.isLoading : false}
       >
-        <SelectTrigger className={cartItem ? 'w-[100px]' : 'w-[150px]'}>
-          <SelectValue placeholder={amount}/>
+        <SelectTrigger className={cartItem ? "w-[100px]" : "w-[150px]"}>
+          <SelectValue placeholder={amount} />
         </SelectTrigger>
         <SelectContent>
-          {Array.from({length: cartItem ? amount + 10 : 10}, (_, index) => {
+          {Array.from({ length: cartItem ? amount + 10 : 10 }, (_, index) => {
             const selectValue = (index + 1).toString();
             return (
               <SelectItem key={index} value={selectValue}>
@@ -48,7 +54,7 @@ function SelectProductAmount(
         </SelectContent>
       </Select>
     </>
-  )
+  );
 }
 
 export default SelectProductAmount;

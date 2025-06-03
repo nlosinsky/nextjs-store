@@ -1,3 +1,4 @@
+import SectionTitle from "@/components/global/SectionTitle";
 import {
   Table,
   TableBody,
@@ -5,18 +6,18 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+  TableRow
+} from "@/components/ui/table";
 
-import SectionTitle from '@/components/global/SectionTitle';
-import { fetchUserOrders } from '@/utils/actions';
-import { formatCurrency, formatDate } from '@/utils/format';
+import { fetchUserOrders } from "@/utils/actions";
+import { formatCurrency, formatDate } from "@/utils/format";
+
 async function OrdersPage() {
   const orders = await fetchUserOrders();
 
   return (
     <>
-      <SectionTitle text='Your Orders' />
+      <SectionTitle text="Your Orders" />
       <div>
         <Table>
           <TableCaption>Total orders : {orders.length}</TableCaption>
