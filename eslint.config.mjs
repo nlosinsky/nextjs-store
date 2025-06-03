@@ -1,69 +1,73 @@
+import eslintReact from "@eslint-react/eslint-plugin";
 import { FlatCompat } from "@eslint/eslintrc";
 import eslintPlugin from "@eslint/js";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import nextPlugin from "@next/eslint-plugin-next";
+import eslintConfigPrettier from "eslint-config-prettier";
+import reactHooks from "eslint-plugin-react-hooks";
+import tsEslint from "typescript-eslint";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// todo refactor this to use the new FlatCompat API
+// todo add tailwind
 
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: eslintPlugin.configs.recommended
-  // allConfig: js.configs.all,
-  // ignoreFiles: ["**/node_modules/**", "**/dist/**"],
-  // reportUnusedDisableDirectives: true,
-  // useEslintrc: false,
-  // resolvePluginsRelativeTo: __dirname,
-  // parser: "@typescript-eslint/parser",
-  // parserOptions: {
-  //   projectService: true,
-  //   tsconfigRootDir: __dirname,
-  // },
-  // plugins: {
-  //   "@typescript-eslint": "@typescript-eslint/eslint-plugin",
-  //   "react-hooks": "eslint-plugin-react-hooks",
-  //   "react-refresh": "eslint-plugin-react-refresh",
-  //   "react-naming-convention": "eslint-plugin-react-naming-convention",
-  // },
-  // rules: {
-  //   ...js.configs.recommended.rules,
-  //   "@typescript-eslint/consistent-type-definitions": ["error", "type"],
-  //   "react-naming-convention/component-name": "warn",
-  //   "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
-  // },
-  // extends: [
-  //   js.configs.recommended,
-  //   ...js.configs.recommendedTypeChecked,
-  //   ...js.configs.strictTypeChecked,
-  //   ...js.configs.stylisticTypeChecked,
-  //   "plugin:react-x/recommended-typescript",
-  //   "plugin:react-dom/recommended",
-  // ],
-  // files: ["**/*.{ts,tsx}"],
-  // languageOptions: {
-  //   parser: "@typescript-eslint/parser",
-  //   parserOptions: {
-  //     projectService: true,
-  //     tsconfigRootDir: __dirname,
-  //   },
-  // }
+  baseDirectory: import.meta.dirname
 });
 
 const eslintConfig = [
-  ...compat.config({
-    extends: [
-      "next/core-web-vitals",
-      "next/typescript",
-      "plugin:prettier/recommended"
-    ],
-    plugins: ["prettier"],
-    rules: {
-      //
-      "prettier/prettier": "error"
-    }
-  })
+  {
+    name: "custom/eslint/recommended",
+    ...eslintPlugin.configs.recommended
+  }
 ];
 
-export default eslintConfig;
+const tsEslintConfig = tsEslint.config({
+  name: "custom/typescript-eslint/recommended",
+  extends: [
+    ...tsEslint.configs.strictTypeChecked,
+    ...tsEslint.configs.stylisticTypeChecked
+  ],
+  rules: {
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/no-confusing-void-expression": "off"
+  }
+});
+
+const reactConfig = tsEslint.config({
+  name: "custom/typescript-eslint/react",
+  extends: [
+    reactHooks.configs["recommended-latest"],
+    eslintReact.configs["recommended-type-checked"]
+  ]
+});
+
+export default [
+  {
+    ignores: [
+      ".next/",
+      ".vscode/",
+      ".idea/",
+      "public/",
+      "components/ui/**",
+      "hooks/use-toast.ts",
+      "*.mjs",
+      "prisma/seed.js"
+    ]
+  },
+  { files: ["**/*.{js,ts,jsx,tsx}"] },
+  {
+    languageOptions: {
+      parser: tsEslint.parser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+        warnOnUnsupportedTypeScriptVersion: true
+      }
+    }
+  },
+  ...compat.extends("next/typescript"),
+  ...eslintConfig,
+  ...tsEslintConfig,
+  ...reactConfig,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  nextPlugin.flatConfig.coreWebVitals,
+  eslintConfigPrettier
+];

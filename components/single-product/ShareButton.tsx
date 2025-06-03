@@ -20,6 +20,12 @@ import { Button } from "../ui/button";
 
 function ShareButton({ productId, name }: { productId: string; name: string }) {
   const url = process.env.NEXT_PUBLIC_WEBSITE_URL;
+
+  if (!url) {
+    console.error("NEXT_PUBLIC_WEBSITE_URL is not defined");
+    return null;
+  }
+
   const shareLink = `${url}/products/${productId}`;
 
   return (

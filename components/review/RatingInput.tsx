@@ -18,11 +18,11 @@ const RatingInput = ({
     const value = i + 1;
     return value.toString();
   }).reverse();
-  const defaultValue = numbers[0] || "";
+  const defaultValue = numbers[0] ?? "";
 
   return (
     <div className="mb-2 max-w-xs">
-      <Label className="capitalize">{labelText || name}</Label>
+      <Label className="capitalize">{labelText ?? name}</Label>
       <Select defaultValue={defaultValue} name={name} required>
         <SelectTrigger>
           <SelectValue />

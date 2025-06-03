@@ -47,7 +47,7 @@ export const fetchFeaturedProducts = async () => {
   return products;
 };
 
-export const fetchAllProducts = async (search: string = "") => {
+export const fetchAllProducts = async (search = "") => {
   const products = await db.product.findMany({
     where: {
       OR: [
@@ -75,7 +75,7 @@ export const fetchSingleProduct = async (productId: string) => {
 };
 
 export const createProductAction = async (
-  _prevState: any,
+  _prevState: unknown,
   formData: FormData
 ) => {
   const user = await getAuthUser();
@@ -143,7 +143,7 @@ export const fetchAdminProductDetails = async (productId: string) => {
 };
 
 export const updateProductAction = async (
-  _prevState: any,
+  _prevState: unknown,
   formData: FormData
 ) => {
   await getAdminUser();
@@ -170,7 +170,7 @@ export const updateProductAction = async (
   }
 };
 export const updateProductImageAction = async (
-  _prevState: any,
+  _prevState: unknown,
   formData: FormData
 ) => {
   await getAuthUser();
@@ -210,7 +210,7 @@ export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
       id: true
     }
   });
-  return favorite?.id || null;
+  return favorite?.id ?? null;
 };
 
 export const toggleFavoriteAction = async (prevState: {
@@ -265,7 +265,7 @@ export const fetchUserFavorites = async () => {
 };
 
 export const createReviewAction = async (
-  _prevState: any,
+  _prevState: unknown,
   formData: FormData
 ) => {
   const user = await getAuthUser();
@@ -382,7 +382,7 @@ export const fetchCartItems = async () => {
       numItemsInCart: true
     }
   });
-  return cart?.numItemsInCart || 0;
+  return cart?.numItemsInCart ?? 0;
 };
 
 const fetchProduct = async (productId: string) => {
@@ -433,14 +433,12 @@ export const fetchOrCreateCart = async ({
     throw new Error("Cart not found");
   }
 
-  if (!cart) {
-    cart = await db.cart.create({
-      data: {
-        clerkId: userId
-      },
-      include: includeProductClause
-    });
-  }
+  cart ??= await db.cart.create({
+    data: {
+      clerkId: userId
+    },
+    include: includeProductClause
+  });
 
   return cart;
 };
@@ -513,7 +511,10 @@ export const updateCart = async (cart: Cart) => {
   });
 };
 
-export const addToCartAction = async (_prevState: any, formData: FormData) => {
+export const addToCartAction = async (
+  _prevState: unknown,
+  formData: FormData
+) => {
   const user = await getAuthUser();
 
   try {
@@ -530,7 +531,7 @@ export const addToCartAction = async (_prevState: any, formData: FormData) => {
 };
 
 export const removeCartItemAction = async (
-  _prevState: any,
+  _prevState: unknown,
   formData: FormData
 ) => {
   const user = await getAuthUser();
@@ -612,10 +613,7 @@ export const createOrderAction = async () => {
         orderTotal: cart.orderTotal,
         tax: cart.tax,
         shipping: cart.shipping,
-        email:
-          (user.emailAddresses?.length &&
-            user.emailAddresses[0]?.emailAddress) ||
-          ""
+        email: user.emailAddresses[0]?.emailAddress ?? ""
       }
     });
 

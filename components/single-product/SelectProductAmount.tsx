@@ -36,7 +36,7 @@ function SelectProductAmount(
       <h4 className="mb-2">Amount : </h4>
       <Select
         defaultValue={amount.toString()}
-        onValueChange={(value) => setAmount(Number(value))}
+        onValueChange={(value) => void setAmount(Number(value))}
         disabled={cartItem ? props.isLoading : false}
       >
         <SelectTrigger className={cartItem ? "w-[100px]" : "w-[150px]"}>

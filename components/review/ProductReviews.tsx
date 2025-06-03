@@ -17,7 +17,7 @@ async function ProductReviews({ productId }: { productId: string }) {
           const reviewInfo = {
             comment,
             rating,
-            image: author.imageUrl || "/images/user.png",
+            image: author.imageUrl ?? "/images/user.png",
             name: author.firstName
           };
           return <ReviewCard key={review.id} reviewInfo={reviewInfo} />;

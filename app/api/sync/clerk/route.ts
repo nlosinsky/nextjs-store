@@ -17,13 +17,11 @@ export const GET = async () => {
       update: {},
       create: {
         clerkId: user.id,
-        email:
-          (user.emailAddresses?.length &&
-            user.emailAddresses[0]?.emailAddress) ||
-          "",
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
-        fullName: user.fullName || `${user.firstName} ${user.lastName}`,
+        email: user.emailAddresses[0]?.emailAddress ?? "",
+        firstName: user.firstName ?? "",
+        lastName: user.lastName ?? "",
+        fullName:
+          user.fullName ?? `${user.firstName ?? ""} ${user.lastName ?? ""}`,
         imageUrl: user.imageUrl || "",
         createdAt: new Date(user.createdAt),
         updatedAt: new Date(user.updatedAt)

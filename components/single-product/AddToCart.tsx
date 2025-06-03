@@ -6,11 +6,9 @@ import { useAuth } from "@clerk/nextjs";
 
 import { addToCartAction } from "@/utils/actions";
 
-import { SubmitButton } from "../form/Buttons";
-import { ProductSignInButton } from "../form/Buttons";
+import { ProductSignInButton, SubmitButton } from "../form/Buttons";
 import FormContainer from "../form/FormContainer";
-import SelectProductAmount from "./SelectProductAmount";
-import { Mode } from "./SelectProductAmount";
+import SelectProductAmount, { Mode } from "./SelectProductAmount";
 
 function AddToCart({ productId }: { productId: string }) {
   const [amount, setAmount] = useState(1);

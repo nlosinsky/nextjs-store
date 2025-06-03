@@ -2,13 +2,17 @@ import { createClient } from "@supabase/supabase-js";
 
 const bucket = "main-bucket";
 
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+  throw new Error("Supabase URL and Key must be set in environment variables");
+}
+
 export const supabase = createClient(
-  process.env.SUPABASE_URL as string,
-  process.env.SUPABASE_KEY as string
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
 );
 
 export const uploadImage = async (image: File) => {
-  const timestamp = Date.now();
+  const timestamp = Date.now().toString();
   const newName = `${timestamp}-${image.name}`;
 
   const { data } = await supabase.storage.from(bucket).upload(newName, image, {

@@ -21,9 +21,9 @@ function HeroCarousel() {
     <div className="hidden lg:block">
       <Carousel>
         <CarouselContent>
-          {carouselImages.map((image, index) => {
+          {carouselImages.map((image) => {
             return (
-              <CarouselItem key={index}>
+              <CarouselItem key={image.src}>
                 <Card>
                   <CardContent className="p-2">
                     <Image

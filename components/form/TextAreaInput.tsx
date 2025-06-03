@@ -11,7 +11,7 @@ function TextAreaInput({ name, labelText, defaultValue }: TextAreaInputProps) {
   return (
     <div className="mb-2">
       <Label htmlFor={name} className="capitalize">
-        {labelText || name}
+        {labelText ?? name}
       </Label>
       <Textarea
         id={name}
